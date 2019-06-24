@@ -14,6 +14,12 @@ public class UrlService {
     @Autowired
     private UrlRepository urlRepository;
 
+    public List<UrlShort> getAll() {
+        List<UrlShort> all = new ArrayList<>();
+        urlRepository.findAll().forEach(all::add);
+        return all;
+    }
+
     //If not already in database, shorten the url
     public boolean shortenUrl(String longUrl){
         if(!urlRepository.existsById(longUrl)){
@@ -38,11 +44,5 @@ public class UrlService {
 
     public UrlShort findByLongUrl(String longUrl){
         return urlRepository.existsById(longUrl) ? urlRepository.findById(longUrl).get() : null;
-    }
-
-    public List<UrlShort> getAll() {
-        List<UrlShort> all = new ArrayList<>();
-        urlRepository.findAll().forEach(all::add);
-        return all;
     }
 }

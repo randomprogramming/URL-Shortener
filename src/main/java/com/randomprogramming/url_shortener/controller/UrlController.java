@@ -15,9 +15,24 @@ public class UrlController {
     @Autowired
     private UrlService urlService;
 
-    @GetMapping("/getall")
+    @GetMapping("/api/getall")
     public List<UrlShort> getAll(){
         return urlService.getAll();
+    }
+
+    //When a user makes a shorten request with a body that contains a link
+    @PostMapping("/api/shorten")
+    public String shortenUrl(@RequestBody String longUrl){
+        if(urlService.shortenUrl(longUrl)){
+            return "Url shortened to: " + urlService.findByLongUrl(longUrl).getShortUrl();
+        }
+        return "Url already exists in database";
+    }
+
+    //get info about a shortUrl
+    @GetMapping("/api/get/{shortUrl}")
+    public UrlShort getShortUrl(@PathVariable String shortUrl){
+        return urlService.findByShortUrl(shortUrl);
     }
 
     //When a user enters a shortened url, redirect them to the long one
@@ -30,15 +45,6 @@ public class UrlController {
         else{
             return new ModelAndView("redirect:/notFound", model);
         }
-    }
-
-    //When a user makes a shorten request with a body that contains a link
-    @PostMapping("/shorten")
-    public String shortenUrl(@RequestBody String longUrl){
-        if(urlService.shortenUrl(longUrl)){
-            return "Url shortened to: " + urlService.findByLongUrl(longUrl).getShortUrl();
-        }
-        return "Url already exists in database";
     }
 
     @GetMapping("/notFound")
