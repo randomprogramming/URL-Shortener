@@ -22,27 +22,28 @@ public class UrlService {
 
     //If not already in database, shorten the url
     public boolean shortenUrl(String longUrl){
-        if(!urlRepository.existsById(longUrl)){
+        if(!urlRepository.existsByLongUrl(longUrl)){
             UrlShort url = new UrlShort(longUrl);
+            url.shortenUrl();
+            //keep generating new URL until we find one that is not taken
+            //not a good long term solution
+            while(urlRepository.existsByShortUrl(url.getShortUrl())){
+                url.shortenUrl();
+            }
             urlRepository.save(url);
-            UrlShort.incrementCounter();
             return true;
         }
         return false;
     }
 
     public UrlShort findByShortUrl(String shortUrl){
-        List<UrlShort> url = urlRepository.findByShortUrl(shortUrl);
-
-        if(!url.isEmpty()){
-            return url.get(0);
+        if (urlRepository.existsByShortUrl(shortUrl)){
+            return urlRepository.findFirstByShortUrl(shortUrl);
         }
-        else{
-            return null;
-        }
+        return null;
     }
 
     public UrlShort findByLongUrl(String longUrl){
-        return urlRepository.existsById(longUrl) ? urlRepository.findById(longUrl).get() : null;
+        return urlRepository.existsByLongUrl(longUrl) ? urlRepository.findFirstByLongUrl(longUrl) : null;
     }
 }

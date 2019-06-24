@@ -1,15 +1,18 @@
 package com.randomprogramming.url_shortener.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Random;
 
 @Entity
 public class UrlShort {
 
-    private static int counter = 0;
-    @Id
+    @Id @GeneratedValue private int counter;
     private String longUrl;
     private String shortUrl;
+
+    private Random rand = new Random();
 
     public UrlShort(){
 
@@ -17,17 +20,20 @@ public class UrlShort {
 
     public UrlShort(String longUrl){
         this.longUrl = longUrl;
-        this.shortUrl = shorten(longUrl);
     }
 
     //This is where the url is actually shortened, it currently only uses a simple counter,
     //but it can be easily changed if needed later
-    private String shorten(String longUrl){
-        return "short" + counter;
+    public void shortenUrl(){
+        this.shortUrl = "short" + rand.nextInt(100);
     }
 
-    public static void incrementCounter(){
-        counter++;
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
     }
 
     public String getLongUrl() {
