@@ -20,6 +20,8 @@ public class UrlShort {
         this.shortUrl = shorten(longUrl);
     }
 
+    //This is where the url is actually shortened, it currently only uses a simple counter,
+    //but it can be easily changed if needed later
     private String shorten(String longUrl){
         return "short" + counter;
     }
