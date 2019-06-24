@@ -4,7 +4,7 @@ Very simple program for shortening URL's using Spring Boot.
 
 The URL has to exist for it to be shortened, see "test pages" in UrlController.java to see examples
 
-#How it works
+# How it works
 
 pic 1
 
