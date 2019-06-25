@@ -8,7 +8,7 @@ import java.util.Random;
 @Entity
 public class UrlShort {
 
-    @Id @GeneratedValue private int counter;
+    @Id @GeneratedValue private int id;
     private String longUrl;
     private String shortUrl;
 
@@ -22,18 +22,18 @@ public class UrlShort {
         this.longUrl = longUrl;
     }
 
-    //This is where the url is actually shortened, it currently only uses a simple counter,
-    //but it can be easily changed if needed later
+    //This is where the url is actually shortened
+    //#TODO change this to some other way of generating urls
     public void shortenUrl(){
         this.shortUrl = "short" + rand.nextInt(100);
     }
 
     public int getCounter() {
-        return counter;
+        return id;
     }
 
-    public void setCounter(int counter) {
-        this.counter = counter;
+    public void setCounter(int id) {
+        this.id = id;
     }
 
     public String getLongUrl() {
